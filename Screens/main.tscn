@@ -1,10 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqf50wcxseokk"]
+[gd_scene load_steps=4 format=3 uid="uid://bqf50wcxseokk"]
 
 [ext_resource type="Script" path="res://Screens/main.gd" id="1_seb1g"]
+[ext_resource type="Script" path="res://Util/CameraController.gd" id="2_0rxdv"]
+[ext_resource type="Script" path="res://Util/MazeCanvas.gd" id="3_bbfoa"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_seb1g")
 CellSize = 32
 WallThickness = 5
+MaxZoom = 4
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_0rxdv")
+
+[node name="MazeCanvas" type="Node2D" parent="."]
+script = ExtResource("3_bbfoa")
