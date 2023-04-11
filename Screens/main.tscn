@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqf50wcxseokk"]
+
+[ext_resource type="Script" path="res://Screens/main.gd" id="1_seb1g"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_seb1g")
+CellSize = 32
+WallThickness = 5
+
+[node name="Camera2D" type="Camera2D" parent="."]
