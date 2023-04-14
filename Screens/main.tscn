@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqf50wcxseokk"]
+[gd_scene load_steps=5 format=3 uid="uid://bqf50wcxseokk"]
 
 [ext_resource type="Script" path="res://Screens/main.gd" id="1_seb1g"]
 [ext_resource type="Script" path="res://Util/CameraController.gd" id="2_0rxdv"]
+[ext_resource type="PackedScene" uid="uid://cgbjdrm6t304k" path="res://Screens/maze_control_side_panel.tscn" id="2_y8h3v"]
 [ext_resource type="Script" path="res://Util/MazeCanvas.gd" id="3_bbfoa"]
 
 [node name="Main" type="Node2D"]
@@ -15,3 +16,7 @@ script = ExtResource("2_0rxdv")
 
 [node name="MazeCanvas" type="Node2D" parent="."]
 script = ExtResource("3_bbfoa")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MazeControlSidePanel" parent="CanvasLayer" instance=ExtResource("2_y8h3v")]

@@ -34,12 +34,10 @@ func _unhandled_input(event):
                 _camera.change_zoom(_zoom_factor)
 
             if event.button_index == MOUSE_BUTTON_LEFT:
-                print("Main: Start Panning")
                 _is_panning = true
 
         if not event.is_pressed():
             if event.button_index == MOUSE_BUTTON_LEFT:
-                print("Main: Stop Panning")
                 _is_panning = false
 
     if event is InputEventMouseMotion:

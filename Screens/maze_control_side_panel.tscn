@@ -1,0 +1,171 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgbjdrm6t304k"]
+
+[ext_resource type="Theme" uid="uid://cfxwoqyvpdrv6" path="res://ui_theme.tres" id="1_ty0ma"]
+
+[node name="MazeControlSidePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("1_ty0ma")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -350.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="AllControls" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 49.0
+offset_top = 15.0
+offset_right = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="ActionButtons" type="HFlowContainer" parent="Panel/AllControls"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="DrawButton" type="Button" parent="Panel/AllControls/ActionButtons"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Draw"
+
+[node name="CenterButton" type="Button" parent="Panel/AllControls/ActionButtons"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Center"
+
+[node name="SeedInput" type="VBoxContainer" parent="Panel/AllControls"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/AllControls/SeedInput"]
+layout_mode = 2
+tooltip_text = "Leave blank to choose a new random seed every time you draw. Type in any word you like to have the same seed."
+mouse_filter = 1
+text = "Seed	"
+
+[node name="SeedLineEdit" type="LineEdit" parent="Panel/AllControls/SeedInput"]
+layout_mode = 2
+tooltip_text = "Leave blank to choose a new random seed every time you draw. Type in any word you like to have the same seed."
+select_all_on_focus = true
+
+[node name="HSeparator" type="HSeparator" parent="Panel/AllControls"]
+layout_mode = 2
+
+[node name="SizeInputs" type="HFlowContainer" parent="Panel/AllControls"]
+layout_mode = 2
+
+[node name="WidthInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Controls the number of cells in the maze in the horizontal direction."
+
+[node name="Label" type="Label" parent="Panel/AllControls/SizeInputs/WidthInput"]
+layout_mode = 2
+text = "Width"
+
+[node name="WidthLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/WidthInput"]
+layout_mode = 2
+alignment = 2
+
+[node name="HeightInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Controls the number of cells in the maze in the vertical direction."
+
+[node name="Label" type="Label" parent="Panel/AllControls/SizeInputs/HeightInput"]
+layout_mode = 2
+text = "Height"
+
+[node name="HeightLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/HeightInput"]
+layout_mode = 2
+alignment = 2
+
+[node name="CellSizeInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "The size in pixels of each cell"
+
+[node name="Label" type="Label" parent="Panel/AllControls/SizeInputs/CellSizeInput"]
+layout_mode = 2
+text = "Cell Size"
+
+[node name="CellSizeLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/CellSizeInput"]
+layout_mode = 2
+alignment = 2
+
+[node name="WallWidthInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "The width in pixels for walls."
+
+[node name="Label" type="Label" parent="Panel/AllControls/SizeInputs/WallWidthInput"]
+layout_mode = 2
+text = "Wall Width"
+
+[node name="WallWidthLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/WallWidthInput"]
+layout_mode = 2
+alignment = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/AllControls"]
+layout_mode = 2
+
+[node name="ColorControls" type="VBoxContainer" parent="Panel/AllControls"]
+layout_mode = 2
+tooltip_text = "Control the color of the maze cells	"
+
+[node name="EvenCellColorPicker" type="HBoxContainer" parent="Panel/AllControls/ColorControls"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/AllControls/ColorControls/EvenCellColorPicker"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Even Cells"
+
+[node name="EvenCellColorPickerButton" type="ColorPickerButton" parent="Panel/AllControls/ColorControls/EvenCellColorPicker"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="OddCellColorPicker" type="HBoxContainer" parent="Panel/AllControls/ColorControls"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/AllControls/ColorControls/OddCellColorPicker"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Odd Cells"
+
+[node name="OddCellColorPickerButton" type="ColorPickerButton" parent="Panel/AllControls/ColorControls/OddCellColorPicker"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="Walls" type="HBoxContainer" parent="Panel/AllControls/ColorControls"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/AllControls/ColorControls/Walls"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Wall Color"
+
+[node name="WallColorPickerButton" type="ColorPickerButton" parent="Panel/AllControls/ColorControls/Walls"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 10
