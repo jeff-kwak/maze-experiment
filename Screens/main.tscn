@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqf50wcxseokk"]
+[gd_scene load_steps=5 format=3 uid="uid://bxabbvfdbh0j5"]
 
 [ext_resource type="Script" path="res://Screens/main.gd" id="1_seb1g"]
-[ext_resource type="Script" path="res://Util/CameraController.gd" id="2_0rxdv"]
+[ext_resource type="Script" path="res://Util/camera_controller.gd" id="2_xcxhe"]
 [ext_resource type="PackedScene" uid="uid://cgbjdrm6t304k" path="res://Screens/maze_control_side_panel.tscn" id="2_y8h3v"]
-[ext_resource type="Script" path="res://Util/MazeCanvas.gd" id="3_bbfoa"]
+[ext_resource type="Script" path="res://Util/maze_canvas.gd" id="3_wid17"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_seb1g")
@@ -12,10 +12,10 @@ WallThickness = 5
 MaxZoom = 4
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("2_0rxdv")
+script = ExtResource("2_xcxhe")
 
 [node name="MazeCanvas" type="Node2D" parent="."]
-script = ExtResource("3_bbfoa")
+script = ExtResource("3_wid17")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
