@@ -1,5 +1,6 @@
 extends Node2D
 
+
 @export var Width: int = 10
 @export var Height: int = 10
 @export var CellSize: int = 16
@@ -9,18 +10,22 @@ extends Node2D
 @export var MaxZoom = 2
 @export var ZoomStep = 0.1
 
-@onready var _camera = $Camera2D
-@onready var _maze_canvas = $MazeCanvas
 
 var _maze: Maze
 var _zoom_factor: float = 1.0
 var _is_panning: bool = false
+
+
+@onready var _camera = $Camera2D
+@onready var _maze_canvas = $MazeCanvas
+
 
 func _ready():
     _build_maze()
     _center_camera()
     _camera.change_zoom(_zoom_factor)
     _maze_canvas.draw_maze(_maze, CellSize, WallThickness)
+
 
 func _unhandled_input(event):
     if event is InputEventMouseButton:

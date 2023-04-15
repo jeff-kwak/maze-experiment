@@ -1,11 +1,29 @@
 extends Node2D
 
+
 var _redraw: bool = false
 var _maze: Maze
 var _width: int = 0
 var _height: int = 0
 var _cell_size: int = 16
 var _wall_thickness: int = 5
+
+
+func _ready():
+    get_viewport().size_changed.connect(_on_resized)
+
+
+func _on_resized():
+    _redraw = true
+
+
+func _draw():
+    if _redraw:
+        for x in _width:
+            for y in _height:
+                _draw_cell(Vector2i(x, y))
+        _redraw = false
+
 
 func draw_maze(maze: Maze, cell_size: int, wall_thickness: int) -> void:
     _maze = maze
@@ -15,19 +33,6 @@ func draw_maze(maze: Maze, cell_size: int, wall_thickness: int) -> void:
     _wall_thickness = wall_thickness
     _redraw = true
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-    get_viewport().connect("size_changed", _on_resized)
-
-func _on_resized():
-    _redraw = true
-
-func _draw():
-    if _redraw:
-        for x in _width:
-            for y in _height:
-                _draw_cell(Vector2i(x, y))
-        _redraw = false
 
 func _draw_cell(cell: Vector2i) -> void:
     # draw the floor
