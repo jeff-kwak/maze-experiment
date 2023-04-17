@@ -1,7 +1,6 @@
 extends Node2D
 
 
-var _redraw: bool = false
 var _maze: Maze
 var _width: int = 0
 var _height: int = 0
@@ -14,15 +13,13 @@ func _ready():
 
 
 func _on_resized():
-    _redraw = true
+    queue_redraw()
 
 
 func _draw():
-    if _redraw:
-        for x in _width:
-            for y in _height:
-                _draw_cell(Vector2i(x, y))
-        _redraw = false
+    for x in _width:
+        for y in _height:
+            _draw_cell(Vector2i(x, y))
 
 
 func draw_maze(maze: Maze, cell_size: int, wall_thickness: int) -> void:
@@ -31,7 +28,7 @@ func draw_maze(maze: Maze, cell_size: int, wall_thickness: int) -> void:
     _height = maze.grid_height
     _cell_size = cell_size
     _wall_thickness = wall_thickness
-    _redraw = true
+    queue_redraw()
 
 
 func _draw_cell(cell: Vector2i) -> void:

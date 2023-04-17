@@ -1,5 +1,5 @@
-extends Object
 class_name Maze
+extends Object
 
 enum Wall {
    North = 0x8, # Has a N wall
@@ -8,25 +8,32 @@ enum Wall {
    West = 0x1 # Has a W wall
 }
 
+
 enum Data {
     Visited = 0x20 # Marked as completed by some algorithm
 }
+
 
 const BLOCKED_ROOM = Wall.North | Wall.South | Wall.East | Wall.West
 const OPEN_ROOM = 0x0
 const WALL_MASK = 0x0F # When used with bitwise and, discards all but the wall bits
 const NO_CELL = Vector2i(-1, -1)
 
+
 var grid_width: int
 var grid_height: int
 var grid: PackedInt32Array
 
+
 var _rng: RandomNumberGenerator
+
 
 func _init(width: int, height: int) -> void:
     grid_width = width
     grid_height = height
+    _rng = RandomNumberGenerator.new()
     reset()
+
 
 func reset() -> Maze:
     grid = PackedInt32Array()
@@ -34,29 +41,30 @@ func reset() -> Maze:
     grid.fill(BLOCKED_ROOM)
     return self
 
+
 func data_at(coord: Vector2i) -> int:
     var result: int = grid[coord.y * grid_width + coord.x]
     return result
 
+
 func is_visited(coord: Vector2i) -> bool:
     var result: int = data_at(coord) & Data.Visited
     return result != 0
+
 
 func random_square() -> Vector2i:
     var x: int = _rng.randi_range(0, grid_width - 1)
     var y: int = _rng.randi_range(0, grid_height - 1)
     return Vector2i(x, y)
 
+
 func recursive_back_tracker(random_seed: int = 0) -> Maze:
     # Every algorithm will use its own rng
-    _rng = RandomNumberGenerator.new()
-    if random_seed != 0:
-        _rng.seed = random_seed
+    _rng.seed = random_seed
+    print("recursive back tracker: seed %s" % _rng.seed)
 
     # Pick a random square in the graph
     var init_square = random_square()
-    if is_visited(init_square):
-        return self # This maze has already been constructed
 
     # Initialize the stack and the starting cell
     var stack = Array()

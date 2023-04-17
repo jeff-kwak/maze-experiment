@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgbjdrm6t304k"]
+[gd_scene load_steps=3 format=3 uid="uid://cgbjdrm6t304k"]
 
 [ext_resource type="Theme" uid="uid://cfxwoqyvpdrv6" path="res://ui_theme.tres" id="1_ty0ma"]
+[ext_resource type="Script" path="res://Screens/maze_control_side_panel.gd" id="2_sk5j6"]
 
 [node name="MazeControlSidePanel" type="Control"]
 layout_mode = 3
@@ -11,6 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 theme = ExtResource("1_ty0ma")
+script = ExtResource("2_sk5j6")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -58,9 +60,16 @@ mouse_filter = 1
 text = "Seed	"
 
 [node name="SeedLineEdit" type="LineEdit" parent="Panel/AllControls/SeedInput"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Leave blank to choose a new random seed every time you draw. Type in any word you like to have the same seed."
 select_all_on_focus = true
+
+[node name="SeedLabel" type="Label" parent="Panel/AllControls/SeedInput"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "88888888888888"
 
 [node name="HSeparator" type="HSeparator" parent="Panel/AllControls"]
 layout_mode = 2
@@ -78,9 +87,9 @@ tooltip_text = "Controls the number of cells in the maze in the horizontal direc
 layout_mode = 2
 text = "Width"
 
-[node name="WidthLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/WidthInput"]
+[node name="WidthSpinBox" type="SpinBox" parent="Panel/AllControls/SizeInputs/WidthInput"]
+unique_name_in_owner = true
 layout_mode = 2
-alignment = 2
 
 [node name="HeightInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
 custom_minimum_size = Vector2(100, 0)
@@ -92,9 +101,9 @@ tooltip_text = "Controls the number of cells in the maze in the vertical directi
 layout_mode = 2
 text = "Height"
 
-[node name="HeightLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/HeightInput"]
+[node name="HeightSpinBox" type="SpinBox" parent="Panel/AllControls/SizeInputs/HeightInput"]
+unique_name_in_owner = true
 layout_mode = 2
-alignment = 2
 
 [node name="CellSizeInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
 custom_minimum_size = Vector2(100, 0)
@@ -106,9 +115,8 @@ tooltip_text = "The size in pixels of each cell"
 layout_mode = 2
 text = "Cell Size"
 
-[node name="CellSizeLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/CellSizeInput"]
+[node name="CellSizeSpinBox" type="SpinBox" parent="Panel/AllControls/SizeInputs/CellSizeInput"]
 layout_mode = 2
-alignment = 2
 
 [node name="WallWidthInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
 custom_minimum_size = Vector2(100, 0)
@@ -120,9 +128,9 @@ tooltip_text = "The width in pixels for walls."
 layout_mode = 2
 text = "Wall Width"
 
-[node name="WallWidthLineEdit" type="LineEdit" parent="Panel/AllControls/SizeInputs/WallWidthInput"]
+[node name="WallWidthSpinBox" type="SpinBox" parent="Panel/AllControls/SizeInputs/WallWidthInput"]
+unique_name_in_owner = true
 layout_mode = 2
-alignment = 2
 
 [node name="HSeparator2" type="HSeparator" parent="Panel/AllControls"]
 layout_mode = 2
@@ -140,6 +148,7 @@ layout_mode = 2
 text = "Even Cells"
 
 [node name="EvenCellColorPickerButton" type="ColorPickerButton" parent="Panel/AllControls/ColorControls/EvenCellColorPicker"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -153,6 +162,7 @@ layout_mode = 2
 text = "Odd Cells"
 
 [node name="OddCellColorPickerButton" type="ColorPickerButton" parent="Panel/AllControls/ColorControls/OddCellColorPicker"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -166,6 +176,10 @@ layout_mode = 2
 text = "Wall Color"
 
 [node name="WallColorPickerButton" type="ColorPickerButton" parent="Panel/AllControls/ColorControls/Walls"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 10
+
+[connection signal="pressed" from="Panel/AllControls/ActionButtons/DrawButton" to="." method="_on_draw_button_pressed"]
+[connection signal="pressed" from="Panel/AllControls/ActionButtons/CenterButton" to="." method="_on_center_button_pressed"]
