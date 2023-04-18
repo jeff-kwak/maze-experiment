@@ -2,10 +2,6 @@ extends Node2D
 
 var MAZE_SETTINGS_PATH: String = "user://maze_settings.tres"
 
-@export var Width: int = 10
-@export var Height: int = 10
-@export var CellSize: int = 16
-@export var WallThickness: int = 2
 @export var MinZoom = 0.2
 @export var MaxZoom = 2
 @export var ZoomStep = 0.1
@@ -24,10 +20,7 @@ var _is_panning: bool = false
 
 func _ready():
     _load_settings()
-    _build_maze()
-    _center_camera()
-    _camera.change_zoom(_zoom_factor)
-    _maze_canvas.draw_maze(_maze, CellSize, WallThickness)
+    _draw_maze()
 
 
 func _unhandled_input(event):
@@ -54,13 +47,13 @@ func _unhandled_input(event):
 
 
 func _center_camera():
-    var x = Width * CellSize * 0.5
-    var y = Height * CellSize * 0.5
+    var x = _maze_settings.width * _maze_settings.cell_size * 0.5
+    var y = _maze_settings.height * _maze_settings.cell_size * 0.5
     _camera.position_camera(x, y)
 
 
 func _build_maze():
-    _maze = Maze.new(Width, Height)
+    _maze = Maze.new(_maze_settings.width, _maze_settings.height)
     _maze = _maze.recursive_back_tracker(_maze_settings.maze_seed_hash)
 
 
@@ -79,9 +72,11 @@ func _on_draw_maze():
     _maze_settings = _maze_settings_size_panel.settings
     print("main: building maze with seed: %s" % _maze_settings.maze_seed_word)
     ResourceSaver.save(_maze_settings, MAZE_SETTINGS_PATH)
+    _draw_maze()
 
+
+func _draw_maze() -> void:
     _build_maze()
     _center_camera()
     _camera.change_zoom(_zoom_factor)
-    _maze_canvas.draw_maze(_maze, CellSize, WallThickness)
-
+    _maze_canvas.draw_maze(_maze, _maze_settings)

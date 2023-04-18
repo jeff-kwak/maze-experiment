@@ -116,6 +116,7 @@ layout_mode = 2
 text = "Cell Size"
 
 [node name="CellSizeSpinBox" type="SpinBox" parent="Panel/AllControls/SizeInputs/CellSizeInput"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="WallWidthInput" type="VBoxContainer" parent="Panel/AllControls/SizeInputs"]
@@ -183,3 +184,10 @@ size_flags_horizontal = 10
 
 [connection signal="pressed" from="Panel/AllControls/ActionButtons/DrawButton" to="." method="_on_draw_button_pressed"]
 [connection signal="pressed" from="Panel/AllControls/ActionButtons/CenterButton" to="." method="_on_center_button_pressed"]
+[connection signal="value_changed" from="Panel/AllControls/SizeInputs/WidthInput/WidthSpinBox" to="." method="_on_width_spin_box_value_changed"]
+[connection signal="value_changed" from="Panel/AllControls/SizeInputs/HeightInput/HeightSpinBox" to="." method="_on_height_spin_box_value_changed"]
+[connection signal="value_changed" from="Panel/AllControls/SizeInputs/CellSizeInput/CellSizeSpinBox" to="." method="_on_cell_size_spin_box_value_changed"]
+[connection signal="value_changed" from="Panel/AllControls/SizeInputs/WallWidthInput/WallWidthSpinBox" to="." method="_on_wall_width_spin_box_value_changed"]
+[connection signal="color_changed" from="Panel/AllControls/ColorControls/EvenCellColorPicker/EvenCellColorPickerButton" to="." method="_on_even_cell_color_picker_button_color_changed"]
+[connection signal="color_changed" from="Panel/AllControls/ColorControls/OddCellColorPicker/OddCellColorPickerButton" to="." method="_on_odd_cell_color_picker_button_color_changed"]
+[connection signal="color_changed" from="Panel/AllControls/ColorControls/Walls/WallColorPickerButton" to="." method="_on_wall_color_picker_button_color_changed"]
