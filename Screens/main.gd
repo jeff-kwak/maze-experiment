@@ -80,3 +80,8 @@ func _draw_maze() -> void:
     _center_camera()
     _camera.change_zoom(_zoom_factor)
     _maze_canvas.draw_maze(_maze, _maze_settings)
+
+
+func _on_maze_control_side_panel_center_maze():
+    print("main: center maze")
+    _center_camera()

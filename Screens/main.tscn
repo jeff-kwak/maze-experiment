@@ -19,4 +19,5 @@ script = ExtResource("3_wid17")
 
 [node name="MazeControlSidePanel" parent="CanvasLayer" instance=ExtResource("2_y8h3v")]
 
+[connection signal="center_maze" from="CanvasLayer/MazeControlSidePanel" to="." method="_on_maze_control_side_panel_center_maze"]
 [connection signal="draw_maze" from="CanvasLayer/MazeControlSidePanel" to="." method="_on_draw_maze"]

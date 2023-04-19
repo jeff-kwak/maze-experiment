@@ -1,8 +1,9 @@
 extends Camera2D
 
 func position_camera(x, y):
-    offset.x = x
-    offset.y = y
+    # offset.x = x
+    # offset.y = y
+    position = Vector2(x, y)
 
 func change_zoom(zoom_factor: float) -> void:
     zoom = Vector2(zoom_factor, zoom_factor)

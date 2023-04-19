@@ -42,7 +42,7 @@ func bind(maze_settings: MazeSettings):
 
 
 func _on_center_button_pressed():
-    pass # Replace with function body.
+    center_maze.emit()
 
 
 func _on_draw_button_pressed():
