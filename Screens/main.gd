@@ -21,6 +21,8 @@ var _is_panning: bool = false
 func _ready():
     _load_settings()
     _draw_maze()
+    _center_camera()
+    _camera.change_zoom(_zoom_factor)
 
 
 func _unhandled_input(event):
@@ -70,18 +72,14 @@ func _load_settings():
 
 func _on_draw_maze():
     _maze_settings = _maze_settings_size_panel.settings
-    print("main: building maze with seed: %s" % _maze_settings.maze_seed_word)
     ResourceSaver.save(_maze_settings, MAZE_SETTINGS_PATH)
     _draw_maze()
 
 
 func _draw_maze() -> void:
     _build_maze()
-    _center_camera()
-    _camera.change_zoom(_zoom_factor)
     _maze_canvas.draw_maze(_maze, _maze_settings)
 
 
 func _on_maze_control_side_panel_center_maze():
-    print("main: center maze")
     _center_camera()
