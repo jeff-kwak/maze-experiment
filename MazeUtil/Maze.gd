@@ -23,6 +23,9 @@ const NO_CELL = Vector2i(-1, -1)
 var grid_width: int
 var grid_height: int
 var grid: PackedInt32Array
+var distances: PackedInt32Array
+var entrance: Vector2i
+var exit: Vector2i
 
 
 var _rng: RandomNumberGenerator
@@ -39,16 +42,22 @@ func reset() -> Maze:
     grid = PackedInt32Array()
     grid.resize(grid_width * grid_height)
     grid.fill(BLOCKED_ROOM)
+    distances.resize(grid_width * grid_height)
+    entrance = Vector2i.ZERO
+    exit = Vector2i.ZERO
     return self
 
 
-func data_at(coord: Vector2i) -> int:
-    var result: int = grid[coord.y * grid_width + coord.x]
-    return result
+func grid_at(coord: Vector2i) -> int:
+    return grid[coord.y * grid_width + coord.x]
+
+
+func dist_at(coord: Vector2i) -> int:
+    return distances[coord.y * grid_width + coord.x]
 
 
 func is_visited(coord: Vector2i) -> bool:
-    var result: int = data_at(coord) & Data.Visited
+    var result: int = grid_at(coord) & Data.Visited
     return result != 0
 
 
@@ -85,6 +94,8 @@ func recursive_back_tracker(random_seed: int = 0) -> Maze:
         else:
             cell = stack.pop_back() if stack.size() > 0 else NO_CELL
 
+    _calc_distances()
+
     return self
 
 func north_of(n: Vector2i) -> Vector2i:
@@ -120,12 +131,18 @@ func _neighbors_of(n: Vector2i) -> Array:
     ].filter(func(c): return c != NO_CELL)
     return result
 
-func _set_data_at(coord: Vector2i, data: int) -> void:
+func _set_grid_at(coord: Vector2i, data: int) -> void:
     grid[coord.y * grid_width + coord.x] = data
 
+
+
+func _set_dist_at(coord: Vector2i, data: int) -> void:
+    distances[coord.y * grid_width + coord.x] = data
+
+
 func _mark_visited(coord: Vector2i) -> void:
-    var dt = data_at(coord) | Data.Visited
-    _set_data_at(coord, dt)
+    var dt = grid_at(coord) | Data.Visited
+    _set_grid_at(coord, dt)
 
 func _pick(choices: Array):
     # The RNG is specific to this instance not global
@@ -134,14 +151,70 @@ func _pick(choices: Array):
 func _link_cells(a: Vector2i, b: Vector2i) -> void:
     var dir: Vector2i = b - a # position determines the direction they're linked
     if dir.x == 1:
-        _set_data_at(a, data_at(a) & ~Wall.East)
-        _set_data_at(b, data_at(b) & ~Wall.West)
+        _set_grid_at(a, grid_at(a) & ~Wall.East)
+        _set_grid_at(b, grid_at(b) & ~Wall.West)
     elif dir.x == -1:
-        _set_data_at(a, data_at(a) & ~Wall.West)
-        _set_data_at(b, data_at(b) & ~Wall.East)
+        _set_grid_at(a, grid_at(a) & ~Wall.West)
+        _set_grid_at(b, grid_at(b) & ~Wall.East)
     elif dir.y == 1:
-        _set_data_at(a, data_at(a) & ~Wall.South)
-        _set_data_at(b, data_at(b) & ~Wall.North)
+        _set_grid_at(a, grid_at(a) & ~Wall.South)
+        _set_grid_at(b, grid_at(b) & ~Wall.North)
     elif dir.y == -1:
-        _set_data_at(a, data_at(a) & ~Wall.North)
-        _set_data_at(b, data_at(b) & ~Wall.South)
+        _set_grid_at(a, grid_at(a) & ~Wall.North)
+        _set_grid_at(b, grid_at(b) & ~Wall.South)
+
+func _is_linked(a: Vector2i, b: Vector2i) -> bool:
+    var dir: Vector2i = b - a
+    if dir.x == 1:
+        return grid_at(a) & Wall.East != 0
+    elif dir.x == -1:
+        return grid_at(a) & Wall.West != 0
+    elif dir.y == 1:
+        return grid_at(a) & Wall.South != 0
+    else:
+        return grid_at(a) & Wall.North != 0
+
+
+func _get_linked(cell: Vector2i) -> Array:
+    var neighbors = _neighbors_of(cell)
+    return neighbors.filter(func(c): _is_linked(cell, c))
+
+func _dijkstra(start: Vector2i) -> Maze:
+    var frontier = [ start ]
+
+    distances.fill(0)
+    var distance = 1
+
+    while not frontier.is_empty():
+        var next_frontier = Array()
+        for f_cell in frontier:
+            _set_dist_at(f_cell, distance)
+            var linked_unvisited = \
+                _get_linked(f_cell).filter(func(c): return dist_at(c) == 0)
+            next_frontier.append_array(linked_unvisited)
+
+        frontier = next_frontier
+        distance += 1
+
+    return self
+
+
+func _cell_w_max_dist() -> Vector2i:
+    var max_distance = 0
+    var max_cell = Vector2i.ZERO
+    for i in grid_width:
+        for j in grid_height:
+            var cell = Vector2i(i, j)
+            if dist_at(cell) > max_distance:
+                max_cell = cell
+
+    return max_cell
+
+
+func _calc_distances() -> Maze:
+    _dijkstra(Vector2i.ZERO)
+    exit = _cell_w_max_dist()
+    _dijkstra(exit)
+    entrance = _cell_w_max_dist()
+
+    return self

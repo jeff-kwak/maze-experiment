@@ -22,6 +22,9 @@ var _settings: MazeSettings
 @onready var _even_color_picker: ColorPickerButton = %EvenCellColorPickerButton
 @onready var _odd_color_picker: ColorPickerButton = %OddCellColorPickerButton
 @onready var _wall_color_picker: ColorPickerButton = %WallColorPickerButton
+@onready var _draw_gradient_check_box: CheckBox = %DrawGradientCheckBox
+@onready var _draw_entrance_exit_check_box: CheckBox = %DrawEntranceExitCheckBox
+@onready var _draw_solution_check_box: CheckBox = %DrawSolutionCheckBox
 
 func _ready():
     _seed_line_edit.text_changed.connect(_on_seed_line_changed)
@@ -39,6 +42,9 @@ func bind(maze_settings: MazeSettings):
     _even_color_picker.color = _settings.even_cell_color
     _odd_color_picker.color = _settings.odd_cell_color
     _wall_color_picker.color = _settings.wall_color
+    _draw_gradient_check_box.button_pressed = _settings.draw_gradient
+    _draw_entrance_exit_check_box.button_pressed = _settings.draw_entrance_exit
+    _draw_solution_check_box.button_pressed = _settings.draw_solution
 
 
 func _on_center_button_pressed():
@@ -80,3 +86,15 @@ func _on_odd_cell_color_picker_button_color_changed(color:Color):
 
 func _on_wall_color_picker_button_color_changed(color:Color):
     _settings.wall_color = color
+
+
+func _on_draw_gradient_check_box_toggled(button_pressed:bool):
+    _settings.draw_gradient = button_pressed
+
+
+func _on_draw_solution_check_box_toggled(button_pressed:bool):
+    _settings.draw_entrance_exit = button_pressed
+
+
+func _on_draw_entrance_exit_check_box_toggled(button_pressed:bool):
+    _settings.draw_solution = button_pressed

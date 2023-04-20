@@ -182,6 +182,50 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
+[node name="HSeparator" type="HSeparator" parent="Panel/AllControls/ColorControls"]
+layout_mode = 2
+
+[node name="DrawGradient" type="HBoxContainer" parent="Panel/AllControls/ColorControls"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/AllControls/ColorControls/DrawGradient"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Draw Gradient
+"
+
+[node name="DrawGradientCheckBox" type="CheckBox" parent="Panel/AllControls/ColorControls/DrawGradient"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="DrawEntranceExit" type="HBoxContainer" parent="Panel/AllControls/ColorControls"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/AllControls/ColorControls/DrawEntranceExit"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Draw Entrance and Exit"
+
+[node name="DrawEntranceExitCheckBox" type="CheckBox" parent="Panel/AllControls/ColorControls/DrawEntranceExit"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="DrawSolution" type="HBoxContainer" parent="Panel/AllControls/ColorControls"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/AllControls/ColorControls/DrawSolution"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Draw Solution
+"
+
+[node name="DrawSolutionCheckBox" type="CheckBox" parent="Panel/AllControls/ColorControls/DrawSolution"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+
 [connection signal="pressed" from="Panel/AllControls/ActionButtons/DrawButton" to="." method="_on_draw_button_pressed"]
 [connection signal="pressed" from="Panel/AllControls/ActionButtons/CenterButton" to="." method="_on_center_button_pressed"]
 [connection signal="value_changed" from="Panel/AllControls/SizeInputs/WidthInput/WidthSpinBox" to="." method="_on_width_spin_box_value_changed"]
@@ -191,3 +235,6 @@ size_flags_horizontal = 10
 [connection signal="color_changed" from="Panel/AllControls/ColorControls/EvenCellColorPicker/EvenCellColorPickerButton" to="." method="_on_even_cell_color_picker_button_color_changed"]
 [connection signal="color_changed" from="Panel/AllControls/ColorControls/OddCellColorPicker/OddCellColorPickerButton" to="." method="_on_odd_cell_color_picker_button_color_changed"]
 [connection signal="color_changed" from="Panel/AllControls/ColorControls/Walls/WallColorPickerButton" to="." method="_on_wall_color_picker_button_color_changed"]
+[connection signal="toggled" from="Panel/AllControls/ColorControls/DrawGradient/DrawGradientCheckBox" to="." method="_on_draw_gradient_check_box_toggled"]
+[connection signal="toggled" from="Panel/AllControls/ColorControls/DrawEntranceExit/DrawEntranceExitCheckBox" to="." method="_on_draw_entrance_exit_check_box_toggled"]
+[connection signal="toggled" from="Panel/AllControls/ColorControls/DrawSolution/DrawSolutionCheckBox" to="." method="_on_draw_solution_check_box_toggled"]

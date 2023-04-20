@@ -56,7 +56,7 @@ func _draw_walls(cell: Vector2i) -> void:
     # draw the walls
     var rect = _rect(cell)
     var p1 = rect.position
-    var walls = _maze.data_at(cell)
+    var walls = _maze.grid_at(cell)
     var top_left: Vector2 = p1
     var top_right: Vector2 = top_left + Vector2(_cell_size, 0)
     var bottom_left: Vector2 = top_left + Vector2(0, _cell_size)

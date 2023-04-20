@@ -28,3 +28,6 @@ var maze_seed_hash: int:
 @export var even_cell_color: Color = Color.WHITE
 @export var odd_cell_color: Color = Color.LIGHT_BLUE
 @export var wall_color: Color = Color.BLACK
+@export var draw_gradient: bool = false
+@export var draw_entrance_exit: bool = false
+@export var draw_solution: bool = false
