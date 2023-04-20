@@ -24,8 +24,8 @@ var grid_width: int
 var grid_height: int
 var grid: PackedInt32Array
 var distances: PackedInt32Array
-var entrance: Vector2i
-var exit: Vector2i
+var entrance: Vector2i = NO_CELL
+var exit: Vector2i = NO_CELL
 
 
 var _rng: RandomNumberGenerator
@@ -212,13 +212,15 @@ func _dijkstra(start: Vector2i) -> Maze:
 
 
 func _cell_w_max_dist() -> Vector2i:
-    var max_distance = 0
     var max_cell = Vector2i.ZERO
+    var max_distance = dist_at(max_cell)
     for i in grid_width:
         for j in grid_height:
             var cell = Vector2i(i, j)
-            if dist_at(cell) > max_distance:
+            var dist = dist_at(cell)
+            if dist > max_distance:
                 max_cell = cell
+                max_distance = dist
 
     return max_cell
 

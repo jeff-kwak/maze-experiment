@@ -9,7 +9,9 @@ var _wall_thickness: int = 5
 var _even_cell_color: Color = Color.WHITE
 var _odd_cell_color: Color = Color.WHITE
 var _wall_color: Color = Color.BLACK
+var _path_color: Color = Color.BLACK
 var _draw_gradient: bool = false
+var _draw_entrance_exit: bool = false
 
 
 func _ready():
@@ -29,6 +31,9 @@ func _draw():
         for y in _height:
             _draw_walls(Vector2i(x, y))
 
+    if _draw_entrance_exit:
+        _draw_the_entrance_and_exit()
+
 
 func draw_maze(maze: Maze, maze_settings: MazeSettings) -> void:
     _maze = maze
@@ -39,7 +44,9 @@ func draw_maze(maze: Maze, maze_settings: MazeSettings) -> void:
     _even_cell_color = maze_settings.even_cell_color
     _odd_cell_color = maze_settings.odd_cell_color
     _wall_color = maze_settings.wall_color
+    _path_color = maze_settings.path_color
     _draw_gradient = maze_settings.draw_gradient
+    _draw_entrance_exit = maze_settings.draw_entrance_exit
     queue_redraw()
 
 
@@ -85,8 +92,19 @@ func _calculate_cell_color(cell: Vector2i) -> Color:
         var max_dist = _maze.get_max_distance()
         var cell_dist = _maze.dist_at(cell)
         var weight = cell_dist/float(max_dist)
-        var result = lerp(_even_cell_color, _odd_cell_color, weight)
+        var result = lerp(_odd_cell_color, _even_cell_color, weight)
         return result
 
      else:
         return _even_cell_color if (cell.x + cell.y) % 2 == 0 else _odd_cell_color
+
+
+func _draw_the_entrance_and_exit() -> void:
+    var entrance: Rect2 = _rect(_maze.entrance)
+    draw_circle(entrance.position + 0.5 * entrance.size, _wall_thickness, _path_color)
+    var exit: Rect2 = _rect(_maze.exit)
+    draw_arc(exit.position + 0.5 * exit.size, _wall_thickness, 0, TAU, 32, _path_color, _wall_thickness / 3.0, true)
+
+    print("entrance: %s" % entrance)
+    print("exit: %s" % exit)
+
