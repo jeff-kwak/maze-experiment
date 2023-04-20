@@ -66,6 +66,14 @@ func random_square() -> Vector2i:
     var y: int = _rng.randi_range(0, grid_height - 1)
     return Vector2i(x, y)
 
+func get_max_distance() -> int:
+    var max_dist: int = -1
+    for d in distances:
+        if d > max_dist:
+            max_dist = d
+
+    return max_dist
+
 
 func recursive_back_tracker(random_seed: int = 0) -> Maze:
     # Every algorithm will use its own rng
@@ -135,7 +143,6 @@ func _set_grid_at(coord: Vector2i, data: int) -> void:
     grid[coord.y * grid_width + coord.x] = data
 
 
-
 func _set_dist_at(coord: Vector2i, data: int) -> void:
     distances[coord.y * grid_width + coord.x] = data
 
@@ -165,19 +172,24 @@ func _link_cells(a: Vector2i, b: Vector2i) -> void:
 
 func _is_linked(a: Vector2i, b: Vector2i) -> bool:
     var dir: Vector2i = b - a
+    var result: bool = false
+
     if dir.x == 1:
-        return grid_at(a) & Wall.East != 0
+        result = grid_at(a) & Wall.East == 0
     elif dir.x == -1:
-        return grid_at(a) & Wall.West != 0
+        result = grid_at(a) & Wall.West == 0
     elif dir.y == 1:
-        return grid_at(a) & Wall.South != 0
+        result = grid_at(a) & Wall.South == 0
     else:
-        return grid_at(a) & Wall.North != 0
+        result = grid_at(a) & Wall.North == 0
+
+    return result
 
 
 func _get_linked(cell: Vector2i) -> Array:
     var neighbors = _neighbors_of(cell)
-    return neighbors.filter(func(c): _is_linked(cell, c))
+    var linked = neighbors.filter(func(c): return _is_linked(cell, c))
+    return linked
 
 func _dijkstra(start: Vector2i) -> Maze:
     var frontier = [ start ]

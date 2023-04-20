@@ -9,6 +9,7 @@ var _wall_thickness: int = 5
 var _even_cell_color: Color = Color.WHITE
 var _odd_cell_color: Color = Color.WHITE
 var _wall_color: Color = Color.BLACK
+var _draw_gradient: bool = false
 
 
 func _ready():
@@ -38,6 +39,7 @@ func draw_maze(maze: Maze, maze_settings: MazeSettings) -> void:
     _even_cell_color = maze_settings.even_cell_color
     _odd_cell_color = maze_settings.odd_cell_color
     _wall_color = maze_settings.wall_color
+    _draw_gradient = maze_settings.draw_gradient
     queue_redraw()
 
 
@@ -49,7 +51,7 @@ func _rect(cell: Vector2i) -> Rect2:
 func _draw_cell(cell: Vector2i) -> void:
     # draw the floor
     var rect = _rect(cell)
-    var color = _even_cell_color if (cell.x + cell.y) % 2 == 0 else _odd_cell_color
+    var color = _calculate_cell_color(cell)
     draw_rect(rect, color, true)
 
 func _draw_walls(cell: Vector2i) -> void:
@@ -77,3 +79,14 @@ func _draw_walls(cell: Vector2i) -> void:
 
     if walls & Maze.Wall.East:
         draw_line(top_right - y_nudge, bottom_right + y_nudge, _wall_color, _wall_thickness)
+
+func _calculate_cell_color(cell: Vector2i) -> Color:
+     if _draw_gradient:
+        var max_dist = _maze.get_max_distance()
+        var cell_dist = _maze.dist_at(cell)
+        var weight = cell_dist/float(max_dist)
+        var result = lerp(_even_cell_color, _odd_cell_color, weight)
+        return result
+
+     else:
+        return _even_cell_color if (cell.x + cell.y) % 2 == 0 else _odd_cell_color
