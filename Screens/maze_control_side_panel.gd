@@ -99,8 +99,8 @@ func _on_draw_gradient_check_box_toggled(button_pressed:bool):
 
 
 func _on_draw_solution_check_box_toggled(button_pressed:bool):
-    _settings.draw_entrance_exit = button_pressed
+    _settings.draw_solution = button_pressed
 
 
 func _on_draw_entrance_exit_check_box_toggled(button_pressed:bool):
-    _settings.draw_solution = button_pressed
+    _settings.draw_entrance_exit = button_pressed

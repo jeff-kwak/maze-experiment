@@ -12,6 +12,7 @@ var _wall_color: Color = Color.BLACK
 var _path_color: Color = Color.BLACK
 var _draw_gradient: bool = false
 var _draw_entrance_exit: bool = false
+var _draw_solution: bool = false
 
 
 func _ready():
@@ -31,8 +32,14 @@ func _draw():
         for y in _height:
             _draw_walls(Vector2i(x, y))
 
+    print("draw entrance exit: %s" % _draw_entrance_exit)
+    print("draw solution: %s" % _draw_solution)
+
     if _draw_entrance_exit:
         _draw_the_entrance_and_exit()
+
+    if _draw_solution:
+        _draw_the_solution()
 
 
 func draw_maze(maze: Maze, maze_settings: MazeSettings) -> void:
@@ -47,6 +54,7 @@ func draw_maze(maze: Maze, maze_settings: MazeSettings) -> void:
     _path_color = maze_settings.path_color
     _draw_gradient = maze_settings.draw_gradient
     _draw_entrance_exit = maze_settings.draw_entrance_exit
+    _draw_solution = maze_settings.draw_solution
     queue_redraw()
 
 
@@ -103,8 +111,36 @@ func _draw_the_entrance_and_exit() -> void:
     var entrance: Rect2 = _rect(_maze.entrance)
     draw_circle(entrance.position + 0.5 * entrance.size, _wall_thickness, _path_color)
     var exit: Rect2 = _rect(_maze.exit)
-    draw_arc(exit.position + 0.5 * exit.size, _wall_thickness, 0, TAU, 32, _path_color, _wall_thickness / 3.0, true)
+    var exit_pos = exit.position + Vector2(_cell_size * 0.5 - _wall_thickness, _cell_size * 0.5 - _wall_thickness)
+    draw_rect(Rect2(exit_pos, Vector2(_wall_thickness * 2, _wall_thickness * 2)), _path_color)
 
-    print("entrance: %s" % entrance)
-    print("exit: %s" % exit)
+
+func _find_next_in_path(from: Vector2i, to_cells: Array) -> Vector2i:
+    var dist_from = _maze.dist_at(from)
+    for cell in to_cells:
+        if _maze.dist_at(cell) == dist_from - 1:
+            return cell
+
+    return Maze.NO_CELL
+
+func _draw_the_solution():
+    var from = _maze.entrance
+
+    var points = Array()
+    points.push_back(from)
+
+    while from != _maze.exit:
+        var possible_directions = _maze.get_linked(from)
+        var chosen = _find_next_in_path(from, possible_directions)
+        if chosen == Maze.NO_CELL:
+            break
+
+        points.push_back(chosen)
+        from = chosen
+
+    points = points \
+        .map(func(p): return _rect(p)) \
+        .map(func(r): return r.position + 0.5 * r.size)
+
+    draw_polyline(points, _path_color, _wall_thickness * 0.62)
 

@@ -130,6 +130,13 @@ func west_of(n: Vector2i) -> Vector2i:
 
     return Vector2i(n.x + 1, n.y)
 
+
+func get_linked(cell: Vector2i) -> Array:
+    var neighbors = _neighbors_of(cell)
+    var linked = neighbors.filter(func(c): return _is_linked(cell, c))
+    return linked
+
+
 func _neighbors_of(n: Vector2i) -> Array:
     var result: Array = [
         north_of(n),
@@ -150,6 +157,7 @@ func _set_dist_at(coord: Vector2i, data: int) -> void:
 func _mark_visited(coord: Vector2i) -> void:
     var dt = grid_at(coord) | Data.Visited
     _set_grid_at(coord, dt)
+
 
 func _pick(choices: Array):
     # The RNG is specific to this instance not global
@@ -186,10 +194,6 @@ func _is_linked(a: Vector2i, b: Vector2i) -> bool:
     return result
 
 
-func _get_linked(cell: Vector2i) -> Array:
-    var neighbors = _neighbors_of(cell)
-    var linked = neighbors.filter(func(c): return _is_linked(cell, c))
-    return linked
 
 func _dijkstra(start: Vector2i) -> Maze:
     var frontier = [ start ]
@@ -202,7 +206,7 @@ func _dijkstra(start: Vector2i) -> Maze:
         for f_cell in frontier:
             _set_dist_at(f_cell, distance)
             var linked_unvisited = \
-                _get_linked(f_cell).filter(func(c): return dist_at(c) == 0)
+                get_linked(f_cell).filter(func(c): return dist_at(c) == 0)
             next_frontier.append_array(linked_unvisited)
 
         frontier = next_frontier
