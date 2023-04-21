@@ -66,6 +66,7 @@ func random_square() -> Vector2i:
     var y: int = _rng.randi_range(0, grid_height - 1)
     return Vector2i(x, y)
 
+
 func get_max_distance() -> int:
     var max_dist: int = -1
     for d in distances:
@@ -76,9 +77,7 @@ func get_max_distance() -> int:
 
 
 func recursive_back_tracker(random_seed: int = 0) -> Maze:
-    # Every algorithm will use its own rng
     _rng.seed = random_seed
-    print("recursive back tracker: seed %s" % _rng.seed)
 
     # Pick a random square in the graph
     var init_square = random_square()
@@ -162,6 +161,7 @@ func _mark_visited(coord: Vector2i) -> void:
 func _pick(choices: Array):
     # The RNG is specific to this instance not global
     return choices[_rng.randi_range(0, choices.size() - 1)]
+
 
 func _link_cells(a: Vector2i, b: Vector2i) -> void:
     var dir: Vector2i = b - a # position determines the direction they're linked

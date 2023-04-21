@@ -4,6 +4,7 @@ extends Node2D
 var _maze: Maze
 var _settings: MazeSettings
 
+
 func _ready():
     get_viewport().size_changed.connect(_on_resized)
 
@@ -39,13 +40,14 @@ func _rect(cell: Vector2i) -> Rect2:
     var p2 = Vector2(_settings.cell_size, _settings.cell_size)
     return Rect2(p1, p2)
 
+
 func _draw_cell(cell: Vector2i) -> void:
     var rect = _rect(cell)
     var color = _calculate_cell_color(cell)
     draw_rect(rect, color, true)
 
+
 func _draw_walls(cell: Vector2i) -> void:
-    # draw the walls
     var rect = _rect(cell)
     var p1 = rect.position
     var walls = _maze.grid_at(cell)
@@ -70,11 +72,14 @@ func _draw_walls(cell: Vector2i) -> void:
     if walls & Maze.Wall.East:
         draw_line(top_right - y_nudge, bottom_right + y_nudge, _settings.wall_color, _settings.wall_width)
 
+
 func _calculate_cell_color(cell: Vector2i) -> Color:
      if _settings.draw_gradient:
         var max_dist = _maze.get_max_distance()
         var cell_dist = _maze.dist_at(cell)
         var weight = cell_dist/float(max_dist)
+
+        # This is the slow poke. Optimize this
         var result = lerp(_settings.odd_cell_color, _settings.even_cell_color, weight)
         return result
 
@@ -98,6 +103,7 @@ func _find_next_in_path(from: Vector2i, to_cells: Array) -> Vector2i:
 
     return Maze.NO_CELL
 
+
 func _draw_the_solution():
     var from = _maze.entrance
 
@@ -118,4 +124,3 @@ func _draw_the_solution():
         .map(func(r): return r.position + 0.5 * r.size)
 
     draw_polyline(points, _settings.path_color, _settings.wall_width * 0.62)
-

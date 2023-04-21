@@ -49,6 +49,7 @@ func bind(maze_settings: MazeSettings):
     _draw_entrance_exit_check_box.button_pressed = _settings.draw_entrance_exit
     _draw_solution_check_box.button_pressed = _settings.draw_solution
 
+
 func _on_center_button_pressed():
     center_maze.emit()
 
